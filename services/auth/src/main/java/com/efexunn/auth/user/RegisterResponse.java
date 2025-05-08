@@ -6,6 +6,8 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginResponse {
-    private String token;
+@Builder
+public class RegisterResponse {
+    private String message;
+    private boolean isSuccess;
 }

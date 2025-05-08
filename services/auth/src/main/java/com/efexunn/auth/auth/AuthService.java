@@ -1,6 +1,7 @@
 package com.efexunn.auth.auth;
 
 import com.efexunn.auth.exceptions.CustomAuthenticationException;
+import com.efexunn.auth.exceptions.CustomJwtException;
 import com.efexunn.auth.user.*;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
@@ -40,11 +41,6 @@ public class AuthService {
     }
 
     public boolean validateToken(String token) {
-        try {
-            jwtService.validateToken(token);
-            return true;
-        } catch (JwtException e){
-            return false;
-        }
+        return jwtService.validateToken(token);
     }
 }

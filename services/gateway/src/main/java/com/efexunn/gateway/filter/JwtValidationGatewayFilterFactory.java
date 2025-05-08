@@ -1,12 +1,15 @@
 package com.efexunn.gateway.filter;
 
+import com.efexunn.gateway.exceptions.UnauthorizedException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Component
 public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFactory<Object> {
@@ -32,8 +35,24 @@ public class JwtValidationGatewayFilterFactory extends AbstractGatewayFilterFact
                     .uri("/auth/validate")
                     .header(HttpHeaders.AUTHORIZATION, token)
                     .retrieve()
+                    .onStatus(
+                            HttpStatusCode::is4xxClientError,
+                            clientResponse -> Mono.error(new UnauthorizedException("Unauthorized"))
+                    )
+                    .onStatus(
+                            HttpStatusCode::is5xxServerError,
+                            clientResponse -> Mono.error(new RuntimeException("Auth service error"))
+                    )
                     .toBodilessEntity()
-                    .then(chain.filter(exchange));
+                    .then(chain.filter(exchange))
+                    .onErrorResume(UnauthorizedException.class, e -> {
+                        exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                        return exchange.getResponse().setComplete();
+                    })
+                    .onErrorResume(RuntimeException.class, e -> {
+                        exchange.getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
+                        return exchange.getResponse().setComplete();
+                    });
         };
     }
 }

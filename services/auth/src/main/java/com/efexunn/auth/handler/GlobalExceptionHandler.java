@@ -1,6 +1,7 @@
 package com.efexunn.auth.handler;
 
 import com.efexunn.auth.exceptions.CustomAuthenticationException;
+import com.efexunn.auth.exceptions.CustomJwtException;
 import com.efexunn.auth.exceptions.UserAlreadyExistException;
 import com.efexunn.auth.exceptions.UserNotFoundException;
 import com.efexunn.auth.user.RegisterResponse;
@@ -31,6 +32,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException exception){
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bad credentials");
     }
+
+    @ExceptionHandler({CustomJwtException.class})
+    public ResponseEntity<String> handleCustomJwtException(CustomJwtException exception){
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("JWT ids not valid or expired.");
+    }
+
 
 
 }

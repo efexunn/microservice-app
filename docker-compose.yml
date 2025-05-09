@@ -14,6 +14,13 @@ services:
       - microservice-net
     restart: unless-stopped
 
+  mail-dev:
+    container_name: microservice-mail-dev
+    image: maildev/maildev
+    ports:
+      - 1080:1080
+      - 1025:1025
+
 networks:
   microservice-net:
     driver: bridge

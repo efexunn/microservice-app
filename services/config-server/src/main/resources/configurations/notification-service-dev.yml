@@ -1,0 +1,17 @@
+spring:
+  mail:
+    host: localhost
+    port: 1025
+    username: microservice@mail.com
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+            required: false
+          auth: false
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+    protocol: smtp
+    default-encoding: UTF-8

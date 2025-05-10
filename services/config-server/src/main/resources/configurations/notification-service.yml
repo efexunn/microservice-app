@@ -1,8 +1,21 @@
+server:
+  port: 8082
+
 spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: notifications
+      username: efexunn
+      password: efe123
+      authentication-database: admin
+
   mail:
     host: localhost
     port: 1025
-    username: microservice@mail.com
+    username: efe@mail.com
+    password: efe123
     properties:
       mail:
         smtp:
@@ -15,3 +28,4 @@ spring:
           writetimeout: 5000
     protocol: smtp
     default-encoding: UTF-8
+

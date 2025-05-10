@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f4f4f4; font-family: Arial, sans-serif;">
+<table role="presentation" style="width: 100%; background-color: #f4f4f4; padding: 20px;">
+  <tr>
+    <td align="center">
+      <table role="presentation" style="max-width: 600px; width: 100%; background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <tr>
+          <td align="center" style="background-color: #0f9a00; padding: 20px; border-top-left-radius: 8px; border-top-right-radius: 8px;">
+            <h1 style="color: #ffffff; margin: 0; font-size: 24px;">Welcome to Our Service</h1>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 20px; text-align: center;">
+            <p style="font-size: 16px; color: #333;">This is a simple email template for Java.</p>
+            <p style="font-size: 16px; color: #333;">Click the button below to see your message.</p>
+            <span id="thank-message" style="font-size: 16px; color: #28a745; margin-top: 10px;" th:text="'Message : ' + ${user_message} + '...'"></span>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 20px; text-align: center; font-size: 12px; color: #777;">
+            <p>&copy; 2025 Efexunn. All rights reserved.</p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

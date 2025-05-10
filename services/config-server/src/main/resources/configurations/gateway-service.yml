@@ -26,3 +26,9 @@ spring:
             - Path=/auth/**
           filters:
             - StripPrefix=0
+        - id: notification-service
+          uri: lb://NOTIFICATION-SERVICE
+          predicates:
+            - Path=/email/**
+          filters:
+            - StripPrefix=0

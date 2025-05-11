@@ -1,5 +1,8 @@
 package com.efexunn.notification.email;
 
+import com.efexunn.notification.notification.Notification;
+import com.efexunn.notification.notification.NotificationService;
+import com.efexunn.notification.notification.NotificationType;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+
 import static com.efexunn.notification.email.EmailTemplateName.SIMPLE_TEMPLATE;
 
 @RestController
@@ -15,6 +20,7 @@ import static com.efexunn.notification.email.EmailTemplateName.SIMPLE_TEMPLATE;
 @RequiredArgsConstructor
 public class EmailController {
     private final EmailService emailService;
+    private final NotificationService notificationService;
 
 
     @PostMapping("/send-template-mail")
@@ -35,6 +41,14 @@ public class EmailController {
                 mailRequest.getEmailAddress(),
                 mailRequest.getSubject(),
                 mailRequest.getMessage()
+        );
+
+
+        notificationService.saveNotification(
+                Notification.builder()
+                        .notificationDate(LocalDateTime.now())
+                        .notificationType(NotificationType.LOGIN_INFO)
+                        .build()
         );
 
         return ResponseEntity.ok("Text mail sent succesfully. If you are using 'dev' profile, you can check localhost:1080");

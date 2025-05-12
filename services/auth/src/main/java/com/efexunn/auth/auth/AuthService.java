@@ -2,6 +2,8 @@ package com.efexunn.auth.auth;
 
 import com.efexunn.auth.exceptions.CustomAuthenticationException;
 import com.efexunn.auth.exceptions.CustomJwtException;
+import com.efexunn.auth.kafka.LoginNotification;
+import com.efexunn.auth.kafka.LoginNotificationProducer;
 import com.efexunn.auth.user.*;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +23,7 @@ public class AuthService {
     private final UserService userService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final LoginNotificationProducer loginNotificationProducer;
 
     public AuthenticationResponse authenticate(LoginRequest request) {
         try{
@@ -36,6 +41,14 @@ public class AuthService {
         User user = userService.findByEmail(request.getEmail());
 
         var jwtToken = jwtService.generateToken(user.getEmail(), user.getRole().name());
+
+        loginNotificationProducer.sendLoginNotification(
+                LoginNotification.builder()
+                        .emailAddress(user.getEmail())
+                        .location("Bursa, Turkey")
+                        .loginDate(LocalDateTime.now())
+                        .build()
+        );
 
         return new AuthenticationResponse(jwtToken);
     }

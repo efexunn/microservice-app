@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Login Alert</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .email-wrapper {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        .email-header {
+            background-color: #0077cc;
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+        }
+        .email-header h2 {
+            margin: 0;
+            font-size: 22px;
+        }
+        .email-body {
+            padding: 30px;
+            color: #333333;
+        }
+        .email-body p {
+            font-size: 16px;
+            line-height: 1.5;
+        }
+        .alert-box {
+            background-color: #e3f2fd;
+            border-left: 5px solid #2196f3;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 15px;
+            color: #0d47a1;
+        }
+        .footer {
+            padding: 20px;
+            font-size: 12px;
+            color: #999999;
+            text-align: center;
+            background-color: #fafafa;
+        }
+    </style>
+</head>
+<body>
+<div class="email-wrapper">
+    <div class="email-header">
+        <h2>Security Alert</h2>
+    </div>
+    <div class="email-body">
+        <p>Hello,</p>
+        <div class="alert-box" th:text="${user_message}">
+            A login to your account was detected on DATE from LOCATION.
+        </div>
+        <p>If this was you, no further action is needed.</p>
+        <p>If you did not initiate this login, we strongly recommend resetting your password immediately and reviewing your account activity.</p>
+    </div>
+    <div class="footer">
+        &copy; 2025 Efexunn. All rights reserved.<br>
+        You received this message because you have an account with us.
+    </div>
+</div>
+</body>
+</html>
